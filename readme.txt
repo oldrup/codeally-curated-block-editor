@@ -14,7 +14,7 @@ A focused block set and fewer distractions when writing posts.
 
 Codeally Curated Block Editor is an opinionated, zero-configuration plugin that provides a focused block set and fewer distractions when writing posts.
 
-It allows a specifically curated set of core and custom blocks in standard posts, while turning off remote directory features, unused embed providers, and distracting inspector UI panels. Pages, custom post types, and the Site Editor retain their full block availability.
+The curated block-type allowlist applies only to standard posts. Pages, custom post types, and the Site Editor are not restricted by that allowlist. Embed variations, remote patterns, Openverse search, and inspector UI are curated wherever the Block Editor is loaded.
 
 = Features =
 
@@ -24,7 +24,7 @@ It allows a specifically curated set of core and custom blocks in standard posts
 * **Disables Openverse:** Removes the Openverse media search category and tab from the editor media library.
 * **Prunes Embed Variations:** Unregisters obscure embed providers, keeping only YouTube, Vimeo, Spotify, Pocket Casts, and VideoPress.
 * **Declutters Inspector UI:** Hides block card descriptions, control help text, and advanced custom CSS panels in the sidebar.
-* **Preserves Site Editor:** Full block availability remains untouched in the Site Editor, for pages, and for custom post types.
+* **Scopes the Block-Type Allowlist:** Restricts block types only in the standard Posts editor; editor-wide embed and inspector curation also applies in other Block Editor screens.
 
 == Installation ==
 

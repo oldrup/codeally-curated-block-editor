@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Codeally Curated Block Editor
- * Plugin URI:        https://github.com/oldrup/codeally-block-restrictions
+ * Plugin URI:        https://github.com/oldrup/codeally-curated-block-editor
  * Description:       A focused block set and fewer distractions when writing posts.
  * Version:           1.1.2
  * Requires at least: 6.9
@@ -9,7 +9,8 @@
  * Author:            Codeally
  * Author URI:        https://codeally.dk
  * License:           GPL-2.0-or-later
- * Text Domain:       codeally-block-restrictions
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       codeally-curated-block-editor
  */
 
 declare(strict_types=1);
@@ -19,17 +20,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * 1. Disable Inserter > Block Directory (plugin installer inside editor).
+ * Disable Block Directory suggestions in the block inserter.
  */
 add_filter( 'block_directory_enabled', '__return_false' );
 
 /**
- * 2. Disable Inserter > Remote Patterns (patterns fetched from WordPress.org).
+ * Disable remote block patterns fetched from WordPress.org.
  */
 add_filter( 'should_load_remote_block_patterns', '__return_false' );
 
 /**
- * 3. Disable Inserter > Media Openverse search integration.
+ * Disable Openverse search in the editor's media inserter.
  */
 add_filter( 'block_editor_settings_all', 'cdly_disable_openverse_media', 10, 1 );
 function cdly_disable_openverse_media( array $settings ): array {
@@ -39,11 +40,11 @@ function cdly_disable_openverse_media( array $settings ): array {
 }
 
 /**
- * 4. Curate the available blocks when editing standard 'post' post types.
+ * Restrict block types in the standard Posts editor.
  *
- * @param array|bool               $allowed_block_types Array of block type slugs, or boolean.
+ * @param array|bool               $allowed_block_types   Block type slugs, or a boolean.
  * @param \WP_Block_Editor_Context $block_editor_context The current block editor context.
- * @return array|bool
+ * @return array|bool The allowed block types, or true to allow all block types.
  */
 add_filter( 'allowed_block_types_all', 'cdly_allowed_block_types_for_posts', 10, 2 );
 function cdly_allowed_block_types_for_posts( array|bool $allowed_block_types, \WP_Block_Editor_Context $block_editor_context ): array|bool {
@@ -96,12 +97,12 @@ function cdly_allowed_block_types_for_posts( array|bool $allowed_block_types, \W
 		);
 	}
 
-	// Keep the full block library in the Site Editor, pages, and custom post types.
+	// Do not apply the block-type allowlist to pages, custom post types, or the Site Editor.
 	return true;
 }
 
 /**
- * 5. Enqueue JavaScript and CSS for the curated Block Editor experience.
+ * Enqueue styles and scripts for the curated Block Editor experience.
  */
 add_action( 'enqueue_block_editor_assets', 'cdly_enqueue_block_editor_restrictions' );
 function cdly_enqueue_block_editor_restrictions(): void {
