@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:       Codeally Block Editor Restrictions
- * Plugin URI:        https://github.com/oldrup/cdly-block-restrictions
- * Description:       Enforces editorial restrictions on the Block Editor (disables Block Directory, Remote Patterns, Openverse, unapproved blocks, and embed variations).
- * Version:           1.1.1
- * Requires at least: 6.5
+ * Plugin Name:       Codeally Curated Block Editor
+ * Plugin URI:        https://github.com/oldrup/codeally-block-restrictions
+ * Description:       A focused block set and fewer distractions when writing posts.
+ * Version:           1.1.2
+ * Requires at least: 6.9
  * Requires PHP:      8.2
  * Author:            Codeally
  * Author URI:        https://codeally.dk
  * License:           GPL-2.0-or-later
- * Text Domain:       cdly-block-restrictions
+ * Text Domain:       codeally-block-restrictions
  */
 
 declare(strict_types=1);
@@ -39,7 +39,7 @@ function cdly_disable_openverse_media( array $settings ): array {
 }
 
 /**
- * 4. Whitelist allowed blocks when editing standard 'post' post types.
+ * 4. Curate the available blocks when editing standard 'post' post types.
  *
  * @param array|bool               $allowed_block_types Array of block type slugs, or boolean.
  * @param \WP_Block_Editor_Context $block_editor_context The current block editor context.
@@ -48,7 +48,7 @@ function cdly_disable_openverse_media( array $settings ): array {
 add_filter( 'allowed_block_types_all', 'cdly_allowed_block_types_for_posts', 10, 2 );
 function cdly_allowed_block_types_for_posts( array|bool $allowed_block_types, \WP_Block_Editor_Context $block_editor_context ): array|bool {
 
-	// Apply restrictions only when editing standard 'post' post types in the post editor context.
+	// Apply the curated block list only to standard posts in the post editor.
 	if (
 		isset( $block_editor_context->name, $block_editor_context->post ) &&
 		'core/edit-post' === $block_editor_context->name &&
@@ -96,12 +96,12 @@ function cdly_allowed_block_types_for_posts( array|bool $allowed_block_types, \W
 		);
 	}
 
-	// Retain full block library for Site Editor, pages, or custom post types.
+	// Keep the full block library in the Site Editor, pages, and custom post types.
 	return true;
 }
 
 /**
- * 5. Enqueue JavaScript and CSS for Block Editor UI restrictions.
+ * 5. Enqueue JavaScript and CSS for the curated Block Editor experience.
  */
 add_action( 'enqueue_block_editor_assets', 'cdly_enqueue_block_editor_restrictions' );
 function cdly_enqueue_block_editor_restrictions(): void {
@@ -109,22 +109,22 @@ function cdly_enqueue_block_editor_restrictions(): void {
 	$plugin_url  = plugin_dir_url( __FILE__ );
 
 	// Enqueue CSS UI decluttering stylesheet.
-	$css_file = $plugin_path . 'assets/css/restrict-blocks.css';
+	$css_file = $plugin_path . 'assets/css/curated-block-editor.css';
 	if ( file_exists( $css_file ) ) {
 		wp_enqueue_style(
 			'cdly-restrict-blocks-style',
-			$plugin_url . 'assets/css/restrict-blocks.css',
+			$plugin_url . 'assets/css/curated-block-editor.css',
 			array(),
 			(string) filemtime( $css_file )
 		);
 	}
 
 	// Enqueue JS variation unregistration script.
-	$js_file = $plugin_path . 'assets/js/restrict-blocks.js';
+	$js_file = $plugin_path . 'assets/js/curated-block-editor.js';
 	if ( file_exists( $js_file ) ) {
 		wp_enqueue_script(
 			'cdly-restrict-blocks-script',
-			$plugin_url . 'assets/js/restrict-blocks.js',
+			$plugin_url . 'assets/js/curated-block-editor.js',
 			array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ),
 			(string) filemtime( $js_file ),
 			true

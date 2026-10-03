@@ -1,5 +1,5 @@
 /**
- * Codeally Block Variation Restrictions
+ * Codeally Curated Block Editor
  *
  * Listens for the window 'load' event to ensure Gutenberg has fully registered
  * all default block variations in memory before attempting to unregister them.
